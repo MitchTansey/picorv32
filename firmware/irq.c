@@ -46,6 +46,7 @@ uint32_t *irq(uint32_t *regs, uint32_t irqs)
 
 	if ((irqs & 1) != 0) {
 		timer_irq_count++;
+		print_str("HELLO TIMER IRQ\n");
 		// print_str("[TIMER-IRQ]");
 	}
 
