@@ -47,7 +47,18 @@ uint32_t *irq(uint32_t *regs, uint32_t irqs)
 	if ((irqs & 1) != 0) {
 		timer_irq_count++;
 		print_str("HELLO TIMER IRQ\n");
-		// print_str("[TIMER-IRQ]");
+
+		uint32_t address = 0x0576; // Example memory address
+		uint32_t value;
+
+		// Inline assembly to read the value from the memory address
+		__asm__ volatile (
+			"lw %0, 0(%1)"   // Load word from address in %1 into %0
+			: "=r" (value)   // Output operand: %0 (value) will be stored in a register
+			: "r" (address)  // Input operand: %1 (address) will be stored in a register
+		);
+
+		printf(value);
 	}
 
 	if ((irqs & 6) != 0)
