@@ -64,21 +64,12 @@ uint32_t *irq(uint32_t *regs, uint32_t irqs)
 		print_str("HELLO TIMER IRQ\n");
 
 		uint32_t address = 0x1000; // Example memory address
-		uint32_t value_s, value_r;
-
-		value_s = 0x0F00;
-
-		__asm__ volatile (
-			"sw %0, 0(%1)"   // Store word from %0 to address in %1
-			:                // No output operands
-			: "r" (value_s),   // Input operand: %0 (value) will be stored in a register
-			"r" (address)  // Input operand: %1 (address) will be stored in a register
-    	);
+		uint32_t value;
 
 		// Inline assembly to read the value from the memory address
 		__asm__ volatile (
 			"lw %0, 0(%1)"   // Load word from address in %1 into %0
-			: "=r" (value_r)   // Output operand: %0 (value) will be stored in a register
+			: "=r" (value)   // Output operand: %0 (value) will be stored in a register
 			: "r" (address)  // Input operand: %1 (address) will be stored in a register
 		);
 
