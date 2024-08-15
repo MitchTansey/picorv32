@@ -59,7 +59,7 @@ uint32_t *irq(uint32_t *regs, uint32_t irqs)
 			: "r" (address)  // Input operand: %1 (address) will be stored in a register
 		);
 
-		printf("%x\n"value);
+		printf("%x\n", value);
 	}
 
 	if ((irqs & 6) != 0)
