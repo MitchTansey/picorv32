@@ -6,8 +6,21 @@
 // means.
 
 #include <stdio.h>
-#include <stdint.h>
 #include "firmware.h"
+
+void put_char(char c) {
+    // Example implementation that writes the character to a specific hardware register
+    // Replace this with actual implementation depending on your hardware
+    volatile uint32_t *uart = (uint32_t *)0x40000000; // Example UART base address
+    *uart = (uint32_t)c;
+}
+
+void print_hex(uint32_t value) {
+    char hex_digits[] = "0123456789ABCDEF";
+    for (int i = 7; i >= 0; i--) {
+        put_char(hex_digits[(value >> (i * 4)) & 0xF]);
+    }
+}
 
 uint32_t *irq(uint32_t *regs, uint32_t irqs)
 {
@@ -60,7 +73,7 @@ uint32_t *irq(uint32_t *regs, uint32_t irqs)
 			: "r" (address)  // Input operand: %1 (address) will be stored in a register
 		);
 
-		printf("%lx\n", value);
+		print_hex(value);
 	}
 
 	if ((irqs & 6) != 0)
