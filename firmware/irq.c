@@ -8,19 +8,19 @@
 #include <stdio.h>
 #include "firmware.h"
 
-void put_char(char c) {
+/*void put_char(char c) {
     // Example implementation that writes the character to a specific hardware register
     // Replace this with actual implementation depending on your hardware
     volatile uint32_t *uart = (uint32_t *)0x40000000; // Example UART base address
     *uart = (uint32_t)c;
 }
 
-void print_hex(uint32_t value) {
+void print_hex_local(uint32_t value) {
     char hex_digits[] = "0123456789ABCDEF";
     for (int i = 7; i >= 0; i--) {
         put_char(hex_digits[(value >> (i * 4)) & 0xF]);
     }
-}
+}*/
 
 uint32_t *irq(uint32_t *regs, uint32_t irqs)
 {
@@ -63,7 +63,7 @@ uint32_t *irq(uint32_t *regs, uint32_t irqs)
 		timer_irq_count++;
 		print_str("HELLO TIMER IRQ\n");
 
-		uint32_t address = 0x0576; // Example memory address
+		uint32_t address = 0x0000; // Example memory address
 		uint32_t value;
 
 		// Inline assembly to read the value from the memory address
@@ -73,7 +73,7 @@ uint32_t *irq(uint32_t *regs, uint32_t irqs)
 			: "r" (address)  // Input operand: %1 (address) will be stored in a register
 		);
 
-		print_hex(value);
+		print_hex(value, 4);
 	}
 
 	if ((irqs & 6) != 0)
